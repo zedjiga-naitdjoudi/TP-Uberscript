@@ -1,7 +1,13 @@
 import { TropPauvreErreur } from "./error.js"
-import { fetchMeals, Meal } from "./meals.js"
+import { fetchMeals, MealDraft, MealPreview, MealMap } from "./meals.js"
 import { User } from "./user.js"
-
+// repas partiel
+const draft: MealDraft = {
+  name: "Salade",
+  price: 12,
+  calories: 200
+}
+console.log("Draft :", draft)
 
 
 // async function test() {
@@ -9,14 +15,27 @@ import { User } from "./user.js"
 //     console.log(meals)
 // }
 // test()
-const user = new User(1,"Bob",30)
+const user = new User(2,"Bob",40)
 user.loadStorage()
 async function showMeals() {
   const meals = await fetchMeals()
+  //indexer par id
+  const mealMap: MealMap = {}
+  meals.forEach(meal => {
+  mealMap[meal.id] = meal
+  })
+  console.log("MealMap :", mealMap)
+
   const list = document.getElementById("mealList")
   meals.forEach(meal => { 
+      //affichage sans id
+      const preview: MealPreview = { 
+      name: meal.name,
+      calories: meal.calories,
+      price: meal.price
+     }
       const li = document.createElement("li")
-      li.textContent = `${meal.name} - ${meal.price}€`
+      li.textContent = `${preview.name} - ${preview.price}€`
 
       const button = document.createElement("button")
       button.textContent = "Commander"

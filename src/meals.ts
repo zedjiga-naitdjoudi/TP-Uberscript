@@ -9,6 +9,10 @@ export type Order = {
   meals: Meal[]
   total: number
 }
+export type MealDraft = Partial<Meal>
+export type MealPreview = Omit<Meal, "id">
+export type MealMap = Record<number, Meal>  
+
 
 export async function fetchMeals(): Promise<Meal[]> {
     try {
