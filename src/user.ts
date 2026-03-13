@@ -1,5 +1,6 @@
 import { Order } from "./app.js"
 import {Meal} from "./meals.js"
+import { TropPauvreErreur } from "./error.js"
 
 export class User {
     id: number
@@ -13,4 +14,20 @@ export class User {
         this.wallet = wallet
         this.orders = []
     }
+
+    orderMeal(meal: Meal){
+        if (this.wallet < meal.price) {
+            throw new TropPauvreErreur ("Fonds insuffisants", meal.price, this.wallet)
+        }
+        this.wallet -= meal.price
+        const order: Order = {
+            id: Date.now(),
+            meals: [meal],
+            total: meal.price
+        }
+        this.orders.push(order)
+
+
+    }
+    
 }
