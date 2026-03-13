@@ -1,5 +1,5 @@
-import { Order } from "./app.js"
-import {Meal} from "./meals.js"
+
+import {Order ,Meal} from "./meals.js"
 import { TropPauvreErreur } from "./error.js"
 
 export class User {

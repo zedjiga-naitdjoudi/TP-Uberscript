@@ -1,18 +1,16 @@
+import { TropPauvreErreur } from "./error.js"
 import { Meal } from "./meals.js"
 import { fetchMeals } from "./meals.js"
+import { User } from "./user.js"
 
-export type Order = {
-  id: number
-  meals: Meal[]
-  total: number
-}
+
 
 // async function test() {
 //     const meals = await fetchMeals()
 //     console.log(meals)
 // }
 // test()
-
+const user = new User(1,"Bob",0)
 async function showMeals() {
   const meals = await fetchMeals()
   const list = document.getElementById("mealList")
@@ -27,11 +25,26 @@ async function showMeals() {
       list?.appendChild(li)
 
       button.onclick = () => {
-      console.log("Commande :", meal)
+        try {
+          user.orderMeal(meal)
+          console.log("Commande reussie")
+          
+        } 
+        catch (error) {
+          if (error instanceof TropPauvreErreur) {
+          alert(`${error.message} (Commande: ${error.prixCommande}€, Solde: ${error.soldeRestant}€)`)
+          } else {
+            console.error(error)
+          }
 }
+          
+        }
+      
+
 
     })
     
   
 }
+
 showMeals()
