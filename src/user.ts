@@ -26,8 +26,34 @@ export class User {
             total: meal.price
         }
         this.orders.push(order)
+        this.saveStorage()
+    }
+
+        saveStorage(): void{
+            localStorage.setItem("orders", JSON.stringify(this.orders))
+            localStorage.setItem("wallet", JSON.stringify(this.wallet))
+        }
+
+        loadStorage(): void {
+            const saveOrders = localStorage.getItem("orders")
+            const saveWallet = localStorage.getItem("wallet")
+        
+        if (saveOrders){
+            this.orders = JSON.parse(saveOrders) as Order[]
+        }
+        if (saveWallet){
+            this.wallet = JSON.parse(saveWallet) as number
+        }
+    }
+
+
+
+
+        
 
 
     }
+
+   
     
-}
+

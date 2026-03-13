@@ -1,6 +1,5 @@
 import { TropPauvreErreur } from "./error.js"
-import { Meal } from "./meals.js"
-import { fetchMeals } from "./meals.js"
+import { fetchMeals, Meal } from "./meals.js"
 import { User } from "./user.js"
 
 
@@ -10,7 +9,8 @@ import { User } from "./user.js"
 //     console.log(meals)
 // }
 // test()
-const user = new User(1,"Bob",0)
+const user = new User(1,"Bob",30)
+user.loadStorage()
 async function showMeals() {
   const meals = await fetchMeals()
   const list = document.getElementById("mealList")
@@ -21,13 +21,13 @@ async function showMeals() {
       const button = document.createElement("button")
       button.textContent = "Commander"
 
-      li.appendChild(button)
-      list?.appendChild(li)
 
       button.onclick = () => {
         try {
-          user.orderMeal(meal)
-          console.log("Commande reussie")
+            user.orderMeal(meal)
+            console.log("Commande réussie")
+            console.log("Wallet restant :", user.wallet)
+            console.log("Historique :", user.orders)
           
         } 
         catch (error) {
@@ -39,6 +39,9 @@ async function showMeals() {
 }
           
         }
+
+      li.appendChild(button)
+      list?.appendChild(li)
       
 
 
