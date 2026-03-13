@@ -15,8 +15,43 @@ console.log("Draft :", draft)
 //     console.log(meals)
 // }
 // test()
-const user = new User(2,"Bob",40)
+const user = new User(1,"Bob",40)
 user.loadStorage()
+
+const list         = document.getElementById("mealList")     as HTMLUListElement
+const orderHistory = document.getElementById("orderHistory") as HTMLUListElement
+const walletDisplay= document.getElementById("walletDisplay")as HTMLSpanElement
+const userNameEl   = document.getElementById("userName")     as HTMLSpanElement
+const totalSpentEl = document.getElementById("totalSpent")   as HTMLSpanElement
+
+function updateWallet(): void {
+  userNameEl.textContent    = user.name
+  walletDisplay.textContent = user.wallet.toString()
+}
+function updateHistory(): void {
+  orderHistory.innerHTML = ""
+
+  if (user.orders.length === 0) {
+    orderHistory.innerHTML = '<li class="list-group-item text-muted">Aucune commande</li>'
+    totalSpentEl.textContent = "0"
+    return
+  }
+
+  user.orders.forEach(order => {
+    const li = document.createElement("li")
+    li.className = "list-group-item d-flex justify-content-between align-items-center"
+
+    const mealNames = order.meals.map(m => m.name).join(", ")
+    li.textContent = `Commande #${order.id} — ${mealNames} — ${order.total}€`
+
+    orderHistory.appendChild(li)
+  })
+
+  // Total dépensé
+  const total = user.orders.reduce((sum, o) => sum + o.total, 0)
+  totalSpentEl.textContent = total.toString()
+}
+
 async function showMeals() {
   const meals = await fetchMeals()
   //indexer par id
@@ -26,7 +61,6 @@ async function showMeals() {
   })
   console.log("MealMap :", mealMap)
 
-  const list = document.getElementById("mealList")
   meals.forEach(meal => { 
       //affichage sans id
       const preview: MealPreview = { 
@@ -44,7 +78,9 @@ async function showMeals() {
       button.onclick = () => {
         try {
             user.orderMeal(meal)
-            console.log("Commande réussie")
+            updateWallet()
+            updateHistory() 
+            console.log("Commande réussie — Wallet :", user.wallet)
             console.log("Wallet restant :", user.wallet)
             console.log("Historique :", user.orders)
           
@@ -69,4 +105,9 @@ async function showMeals() {
   
 }
 
-showMeals()
+async function init(): Promise<void> {
+   updateWallet() 
+   updateHistory()
+   await showMeals()
+}
+init()

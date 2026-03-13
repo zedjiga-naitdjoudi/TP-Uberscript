@@ -16,6 +16,11 @@
     <h1 class="text-center mb-5">Gestion de Menu Restaurant</h1>
 
     <div class="row">
+        <!-- Portefeuille utilisateur -->
+        <div class="alert alert-info mb-4">
+        <strong id="userName"></strong> —
+        Portefeuille : <strong><span id="walletDisplay"></span> €</strong>
+        </div>
 
         <!-- Création de repas -->
         <div class="col-md-4">
@@ -98,6 +103,19 @@
         </div>
 
     </div>
+    <!-- Historique des commandes -->
+    <div class="card shadow mt-5">
+        <div class="card-body">
+            <h5 class="card-title">Historique </h5>
+            <ul id="orderHistory" class="list-group">
+                <!-- rempli dynamiquement -->
+            </ul>
+            <p class="mt-3 mb-0">
+                <strong>Total dépensé : <span id="totalSpent">0</span> €</strong>
+            </p>
+        </div>
+    </div>
+
 
 </div>
 
