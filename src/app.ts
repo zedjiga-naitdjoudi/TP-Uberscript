@@ -19,9 +19,19 @@ async function showMeals() {
   meals.forEach(meal => { 
       const li = document.createElement("li")
       li.textContent = `${meal.name} - ${meal.price}€`
+
+      const button = document.createElement("button")
+      button.textContent = "Commander"
+
+      li.appendChild(button)
       list?.appendChild(li)
 
+      button.onclick = () => {
+      console.log("Commande :", meal)
+}
+
     })
+    
   
 }
 showMeals()
