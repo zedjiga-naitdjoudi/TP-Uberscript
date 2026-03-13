@@ -1,4 +1,5 @@
-import { Order } from "./app"
+import { Order } from "./app.js"
+import {Meal} from "./meals.js"
 
 export class User {
     id: number
