@@ -43,11 +43,26 @@ function updateHistory(): void {
 
     const mealNames = order.meals.map(m => m.name).join(", ")
     li.textContent = `Commande #${order.id} — ${mealNames} — ${order.total}€`
+    // bonus delete button
+    const deleteBtn = document.createElement("button")
+    deleteBtn.className = "btn btn-sm btn-danger"
+    deleteBtn.textContent = "Supprimer"
+    deleteBtn.onclick = () =>
+    {
+      user.orders = user.orders.filter(o => o.id !== order.id)
+      user.saveStorage()
+      updateHistory()
+      updateWallet()
+    }
+    li.appendChild(deleteBtn)
+
+
+
 
     orderHistory.appendChild(li)
   })
 
-  // Total dépensé
+  // bonus total dépensé
   const total = user.orders.reduce((sum, o) => sum + o.total, 0)
   totalSpentEl.textContent = total.toString()
 }
